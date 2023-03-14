@@ -24,6 +24,8 @@ router.delete('/dellexp/:id', affectation.deleteexp);
 router.post('/addtcom', affectation.addtcom)
 router.delete('/delltcom/:id', affectation.deletetcom);
 
+router.put('/updstatus/:id', affectation.updatestatus);
+
 
 
 module.exports= router

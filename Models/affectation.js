@@ -15,6 +15,10 @@ const AFFSchema = new Schema({
     INTITULE_QT :{ type : String},
     NOM_AUDITEUR:{ type : String},
     RS_CLIENT:{ type : String},
+    status: {
+        type: String,
+        
+    },
     
  
    

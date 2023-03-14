@@ -17,6 +17,11 @@ NUM_QUESTION_QT : {type :String},
  
     ReponseQuestion : {type :String},
 
+    affectid: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'AFFECTATION',
+      },
+
 
 } , {timestamps: true})
 RepSchema.set('toJSON', {

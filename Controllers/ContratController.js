@@ -25,7 +25,7 @@ data.forEach(   async element => {
      
      
         
-        await getcontrat(element.COD_TYP_CONTRAT).then(function (result) {
+        await getcontrat(element.NUM_QP).then(function (result) {
             resultarray.push(result[0]);
             
 
@@ -51,8 +51,8 @@ data.forEach(   async element => {
 }
 async function getcontrat(codetypecontrat){
     console.log("this is the passed value:"+codetypecontrat)
-    let data = await TTYPCONTRAT.find({ 
-        COD_TYP_CONTRAT : codetypecontrat } )
+    let data = await TQP.find({ 
+        NUM_QP : codetypecontrat } )
 console.log("this the data:"+data);
             return data;
             
@@ -85,10 +85,10 @@ console.log(data)
    const recuperercontrataud = async(req,res) =>{
     
     resultarray = [];
-   let data = await Tphase.find(
+   let data = await Contrat.find(
     
         
-            { COD_AUDITEUR: req.params.key}
+            { NUM_CLIENT: req.params.key}
         
     
    )
@@ -96,43 +96,25 @@ console.log(data)
  
 
 data.forEach(   async element => {
-   
-   console.log("this is the element:"+ element);
     
-    
-    
-       
-       await getcontrat(element.NUM_CONTRAT).then(function (result) {
-      
-result.forEach( async elemente => {
-    console.log("this is the elementaud:"+ element);
-
-    await getcontrate(elemente.COD_TYP_CONTRAT).then(function (resulte) {
-        resultarray.push(resulte[0]);
-           
-
-        console.log(resultarray)
+    console.log("this is the element:"+ element);
      
-
-
-    })
-
-
-
-
-})
+     
+     
         
-          
-       });
+        await getcontrat(element.NUM_QP).then(function (result) {
+            resultarray.push(result[0]);
+            
 
-   
-      
-
-   
+            console.log(resultarray)
+        });
        
 
-   
-  })
+    
+        
+
+    
+   })
   
 
   
@@ -146,24 +128,24 @@ setTimeout(function(){
 }
 async function getcontrate(codetypecontrat){
     console.log("this is the passed value:"+codetypecontrat)
-    let data = await TTYPCONTRAT.find({ 
-        COD_TYP_CONTRAT : codetypecontrat } )
+    let data = await TQP.find({ 
+        NUM_QP : codetypecontrat } )
  console.log("this the data:"+data);
             return data;
             
         
  
  }
-async function getcontrat(codecontrat){
-   console.log("this is the passed valuess:"+codecontrat)
-   let data = await CONTRAT.find({ 
-    NUM_CONTRAT : codecontrat } )
-console.log("this the data:"+data);
-           return data;
+// async function getcontrat(codecontrat){
+//    console.log("this is the passed valuess:"+codecontrat)
+//    let data = await CONTRAT.find({ 
+//     NUM_CONTRAT : codecontrat } )
+// console.log("this the data:"+data);
+//            return data;
            
        
 
-}
+// }
 
 module.exports ={
     recuperercontrat,recupererTQP,recuperercontrataud

@@ -16,7 +16,7 @@ const recupereaff = async(req,res) =>{
         { 
             NUM_CLIENT:req.params.key,
          }
-        ).select('INTITULE_QT')
+        ).sort({ DATE_AFF: 'asc' })
         
     res.send(data);
     
@@ -28,7 +28,9 @@ const recupereaff = async(req,res) =>{
         { 
             COD_AUDITEUR:req.params.key,
          }
-        ).select('INTITULE_QT')
+        ).sort({ DATE_AFF: 'asc' })
+       
+
         
     res.send(data);
     
@@ -111,13 +113,33 @@ console.log(s2)
     nouvellenews.INTITULE_QT = s1.INTITULE_QT;
     nouvellenews.NOM_AUDITEUR = s2.NOM_AUDITEUR;
     nouvellenews.RS_CLIENT = pharm.RS_CLIENT;
-  
-  
-    
+    nouvellenews.status = "Pending";
+
+
     nouvellenews.save();
 
     res.status(201).send({ message: "success"});
 }
+
+const updatestatus = async (req,res, next) => {
+  const {id} = req.params
+
+   try{
+  const AFFUpdated = await AFFECTATION.findByIdAndUpdate(id,{$set:{status:req.body.status}})
+  console.log(AFFUpdated)
+
+  return res.status(200).send({
+      message: "Status was updated successfully!"
+     
+      
+    })
+    
+  }catch(error){
+      return res.status(500).send({err:error})
+  }
+  console.log(res)
+  }
+
 
 
 
@@ -413,7 +435,7 @@ const deleteformpro = async (req, res) => {
         }
 module.exports = {
     affecte,recupereaff,recupereaffaud,histo,deletehisto,addformpro,deleteformpro,addformcont,deleteformco,
-    addexp,deleteexp,addtcom,deletetcom
+    addexp,deleteexp,addtcom,deletetcom,updatestatus
 
 
 }

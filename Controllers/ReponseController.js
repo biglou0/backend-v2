@@ -1,4 +1,5 @@
 const REPONSE = require('../Models/reponse');
+const AFFECTATION   = require('../Models/affectation');
 
 
 
@@ -28,7 +29,9 @@ console.log(
 
 
     const {NUM_CLIENT, NUM_QT,NUM_CHAP_QT,NUM_SSCHAP_QT,NUM_QUESTION_QT,ReponseQuestion} = req.body;
-  
+    
+    const affectation = await AFFECTATION.findOne({ NUM_CLIENT: NUM_CLIENT });
+    const affectationId = affectation._id;
 
     let nouvellenews = new REPONSE ({});
 
@@ -38,6 +41,7 @@ console.log(
     nouvellenews.NUM_SSCHAP_QT = NUM_SSCHAP_QT;
     nouvellenews.NUM_QUESTION_QT = NUM_QUESTION_QT;
     nouvellenews.ReponseQuestion = ReponseQuestion;
+    nouvellenews.affectid = affectationId;
   
   
     

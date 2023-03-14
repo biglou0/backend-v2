@@ -5,9 +5,9 @@ const config = require("./../config.json");
 const TCHAPr  = require('../Controllers/TCHAP_QTcontrollers');
 
 
-router.post('/show', TCHAPr.recupererChap)
-router.post('/jou', TCHAPr.ajouteTCHAP)
-router.get('/showw/:key', TCHAPr.recupererChapp)
+router.post('/show', TCHAPr.recupererChap);
+router.post('/jou', TCHAPr.ajouteTCHAP);
+router.get('/showw/:key', TCHAPr.recupererChapp);
 router.put('/upform/:id', TCHAPr.updateform);
 router.put('/upchap/:id', TCHAPr.updatechap);
 router.put('/upsschap/:id', TCHAPr.updatesschap);
