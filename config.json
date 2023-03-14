@@ -1,0 +1,6 @@
+{
+    "database" : "mongodb+srv://project:mmKWwtOtiqPVoKWM@cluster0.hacye.mongodb.net/Auditfr",
+    "token_secret" : "token-secret !!"
+   
+
+}
