@@ -113,7 +113,7 @@ console.log(s2)
     nouvellenews.INTITULE_QT = s1.INTITULE_QT;
     nouvellenews.NOM_AUDITEUR = s2.NOM_AUDITEUR;
     nouvellenews.RS_CLIENT = pharm.RS_CLIENT;
-    nouvellenews.status = "Pending";
+    nouvellenews.status = "Nouveau";
 
 
     nouvellenews.save();

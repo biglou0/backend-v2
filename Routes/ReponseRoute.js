@@ -7,6 +7,7 @@ const reponse  = require('../Controllers/ReponseController');
 
 
 router.post('/ajou', reponse.ajoutereponse)
+router.get('/showrep/:key', reponse.recupererresp)
 
 
 

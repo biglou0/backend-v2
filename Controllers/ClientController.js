@@ -3,33 +3,27 @@ const bcrypt  =require('bcryptjs');
 const config = require("../config.json");
 const jwt    =require('jsonwebtoken')
 const nodemailer = require('nodemailer');
+const axios = require('axios');
 
 
 
 
 const add = async (req, res) => {
   const { NUM_CLIENT , RS_CLIENT, STATUT_CLIENT, TEL_CLIENT,FAX_CLIENT,ANCA_CLIENT,E_mail} = req.body;
-  console.log(
-    req.body.NUM_CLIENT
-)
-console.log(
-  req.body.RS_CLIENT
-)
-console.log(
-req.body.STATUT_CLIENT
-)
-console.log(
-req.body.TEL_CLIENT
-)
-console.log(
-  req.body.FAX_CLIENT
-  )
-  console.log(
-    req.body.ANCA_CLIENT
-    )
-    console.log(
-      req.body.E_mail
-      )
+
+  console.log( req.body.NUM_CLIENT)
+
+console.log( req.body.RS_CLIENT)
+
+console.log(req.body.STATUT_CLIENT)
+
+console.log(req.body.TEL_CLIENT)
+
+console.log(req.body.FAX_CLIENT)
+
+console.log(req.body.ANCA_CLIENT)
+
+console.log(req.body.E_mail)
 
 
 
@@ -52,14 +46,27 @@ console.log(
     nouveauUtilisateur.ANCA_CLIENT = ANCA_CLIENT;
     nouveauUtilisateur.E_mail = E_mail;
     nouveauUtilisateur.password = mdpEncrypted; 
+    nouveauUtilisateur.role = "Client";
     //nouveauUtilisateur.isVerified = false;
     
   
     nouveauUtilisateur.save();
 
-    console.log(
-      mdpEncrypted
-    )
+    // const dataToSend = {
+    //   role: nouveauUtilisateur.role,
+    //   E_mail: nouveauUtilisateur.E_mail,
+    //   NUM_CLIENT: nouveauUtilisateur.NUM_CLIENT,
+    //   password: nouveauUtilisateur.password
+    // };
+
+    // axios.post('https://example.com/api', dataToSend)
+    // .then(response => {
+    //   console.log(response.data);
+    // })
+    // .catch(error => {
+    //   console.log(error);
+    // })
+
     // token creation
     const token = jwt.sign({ _id: nouveauUtilisateur._id }, config.token_secret, {
       expiresIn: "120000", // in Milliseconds (3600000 = 1 hour)
@@ -67,8 +74,14 @@ console.log(
 
     sendConfirmationEmail(E_mail);
     res.status(201).send({ message: "success", uses: nouveauUtilisateur, "Token": jwt.verify(token, config.token_secret) });
+
+  
+    
+
+
   }
 };
+
 
 async function sendConfirmationEmail(Email) {
   // create reusable transporter object using the default SMTP transport
@@ -457,6 +470,7 @@ const login = (req, res) => {
           E_mail : req.body.E_mail,
 
           ModelesLettres : req.body.ModelesLettres,
+          
 
           password : mdpEncrypted,
         

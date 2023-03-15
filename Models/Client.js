@@ -58,6 +58,7 @@ E_mail:{ type :String,unique: true},
 ModelesLettres:{ type :String},
 
 password :{ type :String},
+role :{ type :String},
 
 
 } , {timestamps: true})

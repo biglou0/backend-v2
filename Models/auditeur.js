@@ -53,6 +53,7 @@ const AuditeurSchema = new Schema({
     E_mail:{ type :String,unique: true},
     
     password:{ type :String},
+    role :{ type :String},
 
  
    

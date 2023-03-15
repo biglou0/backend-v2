@@ -11,6 +11,7 @@ const TCOMP = require('../Models/tcomp');
 const EXPAUD = require('../Models/exp');
 const FORMC = require('../Models/formcont');
 const ADR = require('../Models/tadr');
+const axios = require('axios');
 
 
 const recupererclient = async(req,res ,data) =>{
@@ -186,10 +187,27 @@ const deleteSAUDById = async (req, res) => {
         nouveauUtilisateur.E_mail = E_mail;
         nouveauUtilisateur.DATENAISSANCE = DATENAISSANCE;
         nouveauUtilisateur.password = mdpEncrypted; 
+        nouveauUtilisateur.role = "Auditeur";
         //nouveauUtilisateur.isVerified = false;
         
       
         nouveauUtilisateur.save();
+
+
+    //     const dataToSend = {
+    //       role: nouveauUtilisateur.role,
+    //       E_mail: nouveauUtilisateur.E_mail,
+    //       COD_AUDITEUR: nouveauUtilisateur.COD_AUDITEUR,
+    //       password: nouveauUtilisateur.password,
+    //       NOM_AUDITEUR : nouveauUtilisateur.NOM_AUDITEUR + nouveauUtilisateur.PRENOM_AUDITEUR
+    //     };
+    //     axios.post('https://example.com/api', dataToSend)
+    // .then(response => {
+    //   console.log(response.data);
+    // })
+    // .catch(error => {
+    //   console.log(error);
+    // })
     
         console.log(
           mdpEncrypted

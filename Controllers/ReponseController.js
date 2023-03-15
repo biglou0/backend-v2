@@ -50,6 +50,25 @@ console.log(
     res.status(201).send({ message: "success"});
 }
 
+
+const recupererresp = async(req,res) =>{
+    let data = await REPONSE.find(
+      {
+          
+        affectid:req.params.key
+          
+      }
+     )
+  
+  res.send({
+    data,
+
+  });
+  
+  
+  
+   }
+
 module.exports = {
-    ajoutereponse
+    ajoutereponse,recupererresp
 }
