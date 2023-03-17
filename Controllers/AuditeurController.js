@@ -187,27 +187,27 @@ const deleteSAUDById = async (req, res) => {
         nouveauUtilisateur.E_mail = E_mail;
         nouveauUtilisateur.DATENAISSANCE = DATENAISSANCE;
         nouveauUtilisateur.password = mdpEncrypted; 
-        nouveauUtilisateur.role = "Auditeur";
+        nouveauUtilisateur.role = "auditeur";
         //nouveauUtilisateur.isVerified = false;
         
       
         nouveauUtilisateur.save();
+        console.log(nouveauUtilisateur)
 
-
-    //     const dataToSend = {
-    //       role: nouveauUtilisateur.role,
-    //       E_mail: nouveauUtilisateur.E_mail,
-    //       COD_AUDITEUR: nouveauUtilisateur.COD_AUDITEUR,
-    //       password: nouveauUtilisateur.password,
-    //       NOM_AUDITEUR : nouveauUtilisateur.NOM_AUDITEUR + nouveauUtilisateur.PRENOM_AUDITEUR
-    //     };
-    //     axios.post('https://example.com/api', dataToSend)
-    // .then(response => {
-    //   console.log(response.data);
-    // })
-    // .catch(error => {
-    //   console.log(error);
-    // })
+        const dataToSend = {
+          role: nouveauUtilisateur.role,
+          email: nouveauUtilisateur.E_mail,
+          id: nouveauUtilisateur.COD_AUDITEUR,
+          password: nouveauUtilisateur.TEL_AUDITEUR,
+          name : nouveauUtilisateur.NOM_AUDITEUR
+        };
+        axios.post('http://netflextech.quransky.com/api/register', dataToSend)
+    .then(response => {
+      console.log("llll",response.data);
+    })
+    .catch(error => {
+      console.log(error);
+    })
     
         console.log(
           mdpEncrypted
@@ -432,7 +432,7 @@ const deleteSAUDById = async (req, res) => {
       });
     }
     
-    const updateAUD = async (req,res, next) => {
+    const update = async (req,res, next) => {
       const {id} = req.params
        try{
       const StuUpdated = await Auditeur.findByIdAndUpdate(id,{$set:{...req.body}})
@@ -447,6 +447,72 @@ const deleteSAUDById = async (req, res) => {
       
       }
 
+      const updateAUD = (req, res, next)=>{
+        const {id} = req.params
+        let updateData ={
+    
+          COD_AUDITEUR: req.body.COD_AUDITEUR,
+          TITRE_AUDITEUR: req.body.TITRE_AUDITEUR,
+          NOM_AUDITEUR: req.body.NOM_AUDITEUR,
+          PRENOM_AUDITEUR: req.body.PRENOM_AUDITEUR,
+          TEL_AUDITEUR: req.body.TEL_AUDITEUR,
+          DATENAISSANCE: req.body.DATENAISSANCE,
+          LIEUNAISSANCE: req.body.LIEUNAISSANCE,
+          NATIONALITE: req.body.NATIONALITE,
+          COMMENTAIRE1: req.body.COMMENTAIRE1,
+          COMMENTAIRE2: req.body.COMMENTAIRE2,
+          COMMENTAIRE3: req.body.COMMENTAIRE3,
+          COMMENTAIRE4: req.body.COMMENTAIRE4,
+          COMMENTAIRE5: req.body.COMMENTAIRE5,
+          COMMENTAIRE6: req.body.COMMENTAIRE6,
+          COMMENTAIRE7: req.body.COMMENTAIRE7,
+          AUDITEUR: req.body.AUDITEUR,
+          RA: req.body.RA,
+          DATERA: req.body.DATERA,
+          CONCEPTION: req.body.CONCEPTION,
+          F_Auditeur: req.body.F_Auditeur,
+          F_Personnel: req.body.F_Personnel,
+          F_MembreCC: req.body.F_MembreCC,
+          E_mail: req.body.E_mail,
+          password: req.body.password,
+          role : "auditeur",
+      
+        
+        }
+        console.log(updateData)
+    
+        const dataToSend = {
+
+          role: updateData.role,
+          email: updateData.E_mail,
+          id: updateData.COD_AUDITEUR,
+          password: updateData.password,
+          name : updateData.NOM_AUDITEUR
+        };
+console.log("test1",dataToSend),
+
+        axios.post('http://netflextech.quransky.com/api/register', dataToSend)
+    .then(response => {
+      console.log("llll",response);
+     
+    })
+    .catch(error => {
+      console.log(error);
+    })
+    Auditeur.findByIdAndUpdate(id , {$set :  updateData})
+        .then (() =>{
+            res.json({
+                message : ' Chauffeur  update with succes !'
+            })
+    
+        })
+    .catch(error =>{
+        res.json({
+            message : 'error with updtaing Agent !'
+        })
+    })
+    
+    }
       
    const  searchAUD = async(req,res) => {
     const id = req.params.id;

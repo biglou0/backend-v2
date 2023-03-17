@@ -92,7 +92,7 @@ console.log(
 
 
   
-const { DATE_AFF } = req.body;
+const { DATE_AFF,Commentaire } = req.body;
     
     
   
@@ -114,6 +114,8 @@ console.log(s2)
     nouvellenews.NOM_AUDITEUR = s2.NOM_AUDITEUR;
     nouvellenews.RS_CLIENT = pharm.RS_CLIENT;
     nouvellenews.status = "Nouveau";
+    nouvellenews.comment = comment;
+
 
 
     nouvellenews.save();

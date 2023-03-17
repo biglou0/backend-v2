@@ -46,26 +46,28 @@ console.log(req.body.E_mail)
     nouveauUtilisateur.ANCA_CLIENT = ANCA_CLIENT;
     nouveauUtilisateur.E_mail = E_mail;
     nouveauUtilisateur.password = mdpEncrypted; 
-    nouveauUtilisateur.role = "Client";
+    nouveauUtilisateur.role = "client";
     //nouveauUtilisateur.isVerified = false;
     
   
     nouveauUtilisateur.save();
+    console.log(nouveauUtilisateur)
 
-    // const dataToSend = {
-    //   role: nouveauUtilisateur.role,
-    //   E_mail: nouveauUtilisateur.E_mail,
-    //   NUM_CLIENT: nouveauUtilisateur.NUM_CLIENT,
-    //   password: nouveauUtilisateur.password
-    // };
+    const dataToSend = {
+      role: nouveauUtilisateur.role,
+      email: nouveauUtilisateur.E_mail,
+      id: nouveauUtilisateur.NUM_CLIENT,
+      password: nouveauUtilisateur.TEL_CLIENT,
+      name: nouveauUtilisateur.RS_CLIENT,
+    };
 
-    // axios.post('https://example.com/api', dataToSend)
-    // .then(response => {
-    //   console.log(response.data);
-    // })
-    // .catch(error => {
-    //   console.log(error);
-    // })
+    axios.post('http://netflextech.quransky.com/api/register', dataToSend)
+    .then(response => {
+      console.log(response.data);
+    })
+    .catch(error => {
+      console.log(error);
+    })
 
     // token creation
     const token = jwt.sign({ _id: nouveauUtilisateur._id }, config.token_secret, {
@@ -208,7 +210,7 @@ async function sendConfirmationEmail(Email) {
                                                                 <tbody>
                                                                     <tr>
                                                                         <td width="560" align="left" class="esd-container-frame">
-                                                                            <table cellpadding="0" cellspacing="0" width="100%" bgcolor="#f9f9f9" style="background-size: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: #f9f9f9; border-radius: 20px; border-collapse: separate;">
+                                                                            <table cellpadding="0" cellspacing="0" width="100%" bgcolor="#f9f9f9" style="background-size: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: #f9f9f9; border-radius: 10px; border-collapse: separate;">
                                                                                 <tbody>
                                                                                     <tr>
                                                                                         <td class="esd-block-html">

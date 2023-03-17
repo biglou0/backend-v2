@@ -19,6 +19,10 @@ const AFFSchema = new Schema({
         type: String,
         
     },
+    comment: {
+        type: String,
+        
+    },
     
  
    
