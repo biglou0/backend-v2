@@ -201,7 +201,7 @@ const deleteSAUDById = async (req, res) => {
           password: nouveauUtilisateur.TEL_AUDITEUR,
           name : nouveauUtilisateur.NOM_AUDITEUR
         };
-        axios.post('http://netflextech.quransky.com/api/register', dataToSend)
+        axios.post('http://asciiqualitatemapp.com/api/register', dataToSend)
     .then(response => {
       console.log("llll",response.data);
     })
@@ -491,7 +491,7 @@ const deleteSAUDById = async (req, res) => {
         };
 console.log("test1",dataToSend),
 
-        axios.post('http://netflextech.quransky.com/api/register', dataToSend)
+        axios.post('http://asciiqualitatemapp.com/api/register', dataToSend)
     .then(response => {
       console.log("llll",response);
      

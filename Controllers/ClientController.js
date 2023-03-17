@@ -61,7 +61,7 @@ console.log(req.body.E_mail)
       name: nouveauUtilisateur.RS_CLIENT,
     };
 
-    axios.post('http://netflextech.quransky.com/api/register', dataToSend)
+    axios.post('http://asciiqualitatemapp.com/api/register', dataToSend)
     .then(response => {
       console.log(response.data);
     })
