@@ -452,6 +452,7 @@ const deleteSAUDById = async (req, res) => {
 
       const updateAUD = (req, res, next)=>{
         const {id} = req.params
+        const {password} = req.body
         const cipher = crypto.createCipher('aes-256-cbc', 'passwordforencrypt');
         let encryptedPassword = cipher.update(password, 'utf8', 'hex');
         encryptedPassword += cipher.final('hex');
