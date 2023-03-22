@@ -452,6 +452,9 @@ const deleteSAUDById = async (req, res) => {
 
       const updateAUD = (req, res, next)=>{
         const {id} = req.params
+        const cipher = crypto.createCipher('aes-256-cbc', 'passwordforencrypt');
+        let encryptedPassword = cipher.update(password, 'utf8', 'hex');
+        encryptedPassword += cipher.final('hex');
         let updateData ={
     
           COD_AUDITEUR: req.body.COD_AUDITEUR,
@@ -477,7 +480,7 @@ const deleteSAUDById = async (req, res) => {
           F_Personnel: req.body.F_Personnel,
           F_MembreCC: req.body.F_MembreCC,
           E_mail: req.body.E_mail,
-          password: req.body.password,
+          password: encryptedPassword,
           role : "auditeur",
       
         

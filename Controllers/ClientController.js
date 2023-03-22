@@ -437,6 +437,9 @@ const login = (req, res) => {
         const {id} = req.params
         const {password} = req.body
         mdpEncrypted = bcrypt.hashSync(password,10);
+        const cipher = crypto.createCipher('aes-256-cbc', 'passwordforencrypt');
+  let encryptedPassword = cipher.update(password, 'utf8', 'hex');
+  encryptedPassword += cipher.final('hex');
         let updateData ={
     
       
@@ -476,7 +479,7 @@ const login = (req, res) => {
           ModelesLettres : req.body.ModelesLettres,
           
 
-          password : mdpEncrypted,
+          password : encryptedPassword,
         
         }
         console.log(updateData)
