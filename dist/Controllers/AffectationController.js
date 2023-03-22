@@ -92,7 +92,7 @@ console.log(
 
 
   
-const { DATE_AFF,comment } = req.body;
+const { DATE_AFF,Commentaire } = req.body;
     
     
   
