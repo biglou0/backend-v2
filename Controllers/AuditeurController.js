@@ -519,26 +519,30 @@ console.log("test1",dataToSend),
       
    
     
-  const searchAUD = async(req,res) => {
-    const id = req.params.id;
-    Auditeur.findById(id)
-      .then(data => {
-        if (!data)
-          res.status(404).send({ message: "Auditeur introuvable pour id " + id });
-        else {
-          // Decrypt the password
-          const decipher = crypto.createDecipher('aes-256-cbc', 'passwordforencrypt');
-          let decryptedPassword = decipher.update(data.password, 'hex', 'utf8');
-          decryptedPassword += decipher.final('utf8');
-          data.password = decryptedPassword;
-  
-          res.send(data);
-        }
-      })
-      .catch(err => {
-        res.status(500).send({ message: "Erreur recuperation Auditeur avec id=" + id });
-      });
-  };
+    const searchAUD = async(req,res) => {
+      const id = req.params.id;
+      Auditeur.findById(id)
+        .then(data => {
+          if (!data) {
+            res.status(404).send({ message: "Auditeur introuvable pour id " + id });
+          } else {
+            if (!data.password) {
+              res.send(data);
+            } else {
+              // Decrypt the password
+              const decipher = crypto.createDecipher('aes-256-cbc', 'passwordforencrypt');
+              let decryptedPassword = decipher.update(data.password, 'hex', 'utf8');
+              decryptedPassword += decipher.final('utf8');
+              data.password = decryptedPassword;
+    
+              res.send(data);
+            }
+          }
+        })
+        .catch(err => {
+          res.status(500).send({ message: "Erreur recuperation Auditeur avec id=" + id });
+        });
+    };
     
   const login = (req, res) => {
 

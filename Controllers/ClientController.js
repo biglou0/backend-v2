@@ -496,20 +496,25 @@ const login = (req, res) => {
     
     }
       
+   
     const searchCLI = async(req,res) => {
       const id = req.params.id;
       CLIENT.findById(id)
         .then(data => {
-          if (!data)
+          if (!data) {
             res.status(404).send({ message: "CLIENT introuvable pour id " + id });
-          else {
-            // Decrypt the password
-            const decipher = crypto.createDecipher('aes-256-cbc', 'passwordforencrypt');
-            let decryptedPassword = decipher.update(data.password, 'hex', 'utf8');
-            decryptedPassword += decipher.final('utf8');
-            data.password = decryptedPassword;
+          } else {
+            if (!data.password) {
+              res.send(data);
+            } else {
+              // Decrypt the password
+              const decipher = crypto.createDecipher('aes-256-cbc', 'passwordforencrypt');
+              let decryptedPassword = decipher.update(data.password, 'hex', 'utf8');
+              decryptedPassword += decipher.final('utf8');
+              data.password = decryptedPassword;
     
-            res.send(data);
+              res.send(data);
+            }
           }
         })
         .catch(err => {
