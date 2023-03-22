@@ -12,6 +12,7 @@ const EXPAUD = require('../Models/exp');
 const FORMC = require('../Models/formcont');
 const ADR = require('../Models/tadr');
 const axios = require('axios');
+const crypto = require('crypto');
 
 
 const recupererclient = async(req,res ,data) =>{
@@ -165,7 +166,9 @@ const deleteSAUDById = async (req, res) => {
             req.body.DATENAISSANCE
             )
     
-    
+            const cipher = crypto.createCipher('aes-256-cbc', 'passwordforencrypt');
+            let encryptedPassword = cipher.update(TEL_AUDITEUR, 'utf8', 'hex');
+            encryptedPassword += cipher.final('hex');
     
     
       const verifUtilisateur = await Auditeur.findOne({ E_mail });
@@ -175,7 +178,7 @@ const deleteSAUDById = async (req, res) => {
         const nouveauUtilisateur = new Auditeur();
     
     
-        mdpEncrypted = bcrypt.hashSync(TEL_AUDITEUR,10);
+        // mdpEncrypted = bcrypt.hashSync(TEL_AUDITEUR,10);
     
         
         nouveauUtilisateur.COD_AUDITEUR = COD_AUDITEUR;
@@ -186,7 +189,7 @@ const deleteSAUDById = async (req, res) => {
         nouveauUtilisateur.NATIONALITE = NATIONALITE;
         nouveauUtilisateur.E_mail = E_mail;
         nouveauUtilisateur.DATENAISSANCE = DATENAISSANCE;
-        nouveauUtilisateur.password = mdpEncrypted; 
+        nouveauUtilisateur.password = encryptedPassword; 
         nouveauUtilisateur.role = "auditeur";
         //nouveauUtilisateur.isVerified = false;
         
@@ -514,21 +517,28 @@ console.log("test1",dataToSend),
     
     }
       
-   const  searchAUD = async(req,res) => {
+   
+    
+  const searchAUD = async(req,res) => {
     const id = req.params.id;
     Auditeur.findById(id)
       .then(data => {
         if (!data)
           res.status(404).send({ message: "Auditeur introuvable pour id " + id });
-        else res.send(data);
+        else {
+          // Decrypt the password
+          const decipher = crypto.createDecipher('aes-256-cbc', 'passwordforencrypt');
+          let decryptedPassword = decipher.update(data.password, 'hex', 'utf8');
+          decryptedPassword += decipher.final('utf8');
+          data.password = decryptedPassword;
+  
+          res.send(data);
+        }
       })
       .catch(err => {
-        res
-          .status(500)
-          .send({ message: "Erreur recuperation CLIENT avec id=" + id });
+        res.status(500).send({ message: "Erreur recuperation Auditeur avec id=" + id });
       });
-  }
-    
+  };
     
   const login = (req, res) => {
 

@@ -4,7 +4,7 @@ const config = require("../config.json");
 const jwt    =require('jsonwebtoken')
 const nodemailer = require('nodemailer');
 const axios = require('axios');
-
+const crypto = require('crypto');
 
 
 
@@ -25,7 +25,9 @@ console.log(req.body.ANCA_CLIENT)
 
 console.log(req.body.E_mail)
 
-
+const cipher = crypto.createCipher('aes-256-cbc', 'passwordforencrypt');
+  let encryptedPassword = cipher.update(TEL_CLIENT, 'utf8', 'hex');
+  encryptedPassword += cipher.final('hex');
 
 
   const verifUtilisateur = await CLIENT.findOne({ E_mail });
@@ -35,7 +37,7 @@ console.log(req.body.E_mail)
     const nouveauUtilisateur = new CLIENT();
 
 
-    mdpEncrypted = bcrypt.hashSync(TEL_CLIENT,10);
+    // mdpEncrypted = bcrypt.hashSync(TEL_CLIENT,10);
 
     
     nouveauUtilisateur.NUM_CLIENT = NUM_CLIENT;
@@ -45,7 +47,7 @@ console.log(req.body.E_mail)
     nouveauUtilisateur.FAX_CLIENT = FAX_CLIENT;
     nouveauUtilisateur.ANCA_CLIENT = ANCA_CLIENT;
     nouveauUtilisateur.E_mail = E_mail;
-    nouveauUtilisateur.password = mdpEncrypted; 
+    nouveauUtilisateur.password = encryptedPassword; 
     nouveauUtilisateur.role = "client";
     //nouveauUtilisateur.isVerified = false;
     
@@ -494,20 +496,26 @@ const login = (req, res) => {
     
     }
       
-   const  searchCLI = async(req,res) => {
-    const id = req.params.id;
-    CLIENT.findById(id)
-      .then(data => {
-        if (!data)
-          res.status(404).send({ message: "CLIENT introuvable pour id " + id });
-        else res.send(data);
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .send({ message: "Erreur recuperation CLIENT avec id=" + id });
-      });
-  }
+    const searchCLI = async(req,res) => {
+      const id = req.params.id;
+      CLIENT.findById(id)
+        .then(data => {
+          if (!data)
+            res.status(404).send({ message: "CLIENT introuvable pour id " + id });
+          else {
+            // Decrypt the password
+            const decipher = crypto.createDecipher('aes-256-cbc', 'passwordforencrypt');
+            let decryptedPassword = decipher.update(data.password, 'hex', 'utf8');
+            decryptedPassword += decipher.final('utf8');
+            data.password = decryptedPassword;
+    
+            res.send(data);
+          }
+        })
+        .catch(err => {
+          res.status(500).send({ message: "Erreur recuperation CLIENT avec id=" + id });
+        });
+    };
 
 
 module.exports ={
