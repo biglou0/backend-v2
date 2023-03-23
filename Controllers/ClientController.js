@@ -446,7 +446,7 @@ const login = (req, res) => {
           role: updateData.role,
           email: updateData.E_mail,
           id: updateData.NUM_CLIENT,
-          password: updateData.password,
+          password: req.body.password,
           name : updateData.RS_CLIENT
         };
 console.log("test1",dataToSend),

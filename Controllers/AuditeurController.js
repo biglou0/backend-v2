@@ -493,7 +493,7 @@ const deleteSAUDById = async (req, res) => {
           role: updateData.role,
           email: updateData.E_mail,
           id: updateData.COD_AUDITEUR,
-          password: updateData.password,
+          password: req.body.password,
           name : updateData.NOM_AUDITEUR
         };
 console.log("test1",dataToSend),
