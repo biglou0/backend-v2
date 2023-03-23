@@ -327,75 +327,32 @@ const recuperercliente = async(req,res ,data) =>{
 
 
 const login = (req, res) => {
-
-
-    console.log(
-      req.body.email
-    )
-  
-    console.log(
-      req.body.password
-    )
-  
-  
-  
-  
-    var email = req.body.email
-    var password = req.body.password
-    CLIENT.findOne({ E_mail: email }, function (err, user) {
-  
-      if (err) {
-        console.log(err);
-      }
-  
-  
-      if (user) {
-        bcrypt.compare(password, user.password, function (err, result) {
-          if (err) {
-            res.json({
-              error: err
-            })
-          }
-  
-          if (result) {
-          
-           
-            
-            return res.json({
-  
-                NUM_CLIENT: user.NUM_CLIENT,
-           
-              E_mail: user.E_mail,
-          
-              password: user.password,
-         
-          
-  
-  
-  
-  
-            })
-            
-            
-          } else {
-            res.status(403).send({ message: "password does not matched !" });
-  
-          }
-        })
-  
-  
-      } else {
-        res.status(403).send({ message: "Wrong email adress!" });
-  
-  
-  
-  
-  
-      }
-    })
-
-  
-  }
+  const email = req.body.email;
+  const password = req.body.password;
+  CLIENT.findOne({ E_mail: email }, function (err, user) {
+    if (err) {
+      console.log(err);
+      res.status(500).send({ message: "Error retrieving user with email " + email });
+      return;
+    }
+    if (!user) {
+      res.status(403).send({ message: "User not found with email " + email });
+      return;
+    }
+    const decipher = crypto.createDecipher('aes-256-cbc', 'passwordforencrypt');
+    let decryptedPassword = decipher.update(user.password, 'hex', 'utf8');
+    decryptedPassword += decipher.final('utf8');
+    if (password === decryptedPassword) {
+      res.json({
+        NUM_CLIENT: user.NUM_CLIENT,
+        E_mail: user.E_mail,
+        password: decryptedPassword
+      });
+    } else {
+      res.status(403).send({ message: "Password does not match!" });
+    }
+  });
+}
 
   const deleteSCLIById = async (req, res) => {
     const id = req.params.id;
@@ -480,9 +437,28 @@ const login = (req, res) => {
           
 
           password : encryptedPassword,
+          role : "client",
         
         }
         console.log(updateData)
+        const dataToSend = {
+
+          role: updateData.role,
+          email: updateData.E_mail,
+          id: updateData.NUM_CLIENT,
+          password: updateData.password,
+          name : updateData.RS_CLIENT
+        };
+console.log("test1",dataToSend),
+
+        axios.post('http://asciiqualitatemapp.com/api/register', dataToSend)
+    .then(response => {
+      console.log("llll",response);
+     
+    })
+    .catch(error => {
+      console.log(error);
+    })
     
         CLIENT.findByIdAndUpdate(id , {$set :  updateData})
         .then (() =>{
